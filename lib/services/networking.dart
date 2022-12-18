@@ -7,15 +7,17 @@ class NetworkHelper {
   final String url;
 
   Future getData() async {
-    http.Response response = await http.get(Uri.parse(url),
-        headers: {'X-Auth-Token': '824557d9ff144ef7a3141f8c697742fd'});
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {'X-Auth-Token': '824557d9ff144ef7a3141f8c697742fd'},
+    );
 
     if (response.statusCode == 200) {
       String data = response.body;
-      print('succses');
-      return jsonDecode(data);
+      Map decoded = jsonDecode(data);
+      List table = decoded['standings'][0]['table'];
+      return table;
     } else {
-      print('failed');
       print(response.statusCode);
     }
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-//import 'package:offside/services/networking.dart';
+import 'package:offside/services/networking.dart';
+import 'package:offside/services/competition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,15 +17,23 @@ class StandingScreen extends StatefulWidget {
 class _StandingScreenState extends State<StandingScreen> {
   List _table = [];
 
-  getTable() async {
-    http.Response response = await http.get(
-      Uri.parse(
-          'http://api.football-data.org/v2/competitions/${widget.code}/standings'),
-      headers: {'X-Auth-Token': '824557d9ff144ef7a3141f8c697742fd'},
-    );
-    String body = response.body;
-    Map data = jsonDecode(body);
-    List table = data['standings'][0]['table'];
+  // ALTERNATIVE
+  // getTable() async {
+  //   http.Response response = await http.get(
+  //     Uri.parse(
+  //         'http://api.football-data.org/v2/competitions/${widget.code}/standings'),
+  //     headers: {'X-Auth-Token': '824557d9ff144ef7a3141f8c697742fd'},
+  //   );
+  //   String body = response.body;
+  //   Map data = jsonDecode(body);
+  //   List table = data['standings'][0]['table'];
+  //   setState(() {
+  //     _table = table;
+  //   });
+  // }
+
+  getStanding() async {
+    var table = await getTable().getComp(widget.code);
     setState(() {
       _table = table;
     });
@@ -89,7 +98,7 @@ class _StandingScreenState extends State<StandingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getTable();
+    getStanding();
   }
 
   @override
@@ -109,7 +118,10 @@ class _StandingScreenState extends State<StandingScreen> {
             body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [const Color(0xffe84860), const Color(0xffe70066)],
+                  colors: [
+                    Color.fromARGB(255, 0, 255, 242),
+                    Color.fromARGB(255, 96, 218, 255),
+                  ],
                   begin: const FractionalOffset(0.0, 0.0),
                   end: const FractionalOffset(0.0, 0.1),
                   stops: [0.0, 0.1],
