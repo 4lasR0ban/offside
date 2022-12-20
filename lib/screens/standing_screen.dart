@@ -4,6 +4,7 @@ import 'package:offside/services/networking.dart';
 import 'package:offside/services/competition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:offside/components/custom_card.dart';
 
 class StandingScreen extends StatefulWidget {
   final String code;
@@ -148,7 +149,7 @@ class _StandingScreenState extends State<StandingScreen> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
-                                width: 20,
+                                width: 30,
                               ),
                               Text(
                                 'Club',
